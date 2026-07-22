@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1110" role="img" aria-label="ARCnet receive path diagram">
+<style>
+  text{font-family:Consolas,Menlo,'DejaVu Sans Mono',monospace;fill:#E8ECF5}
+  .ttl{font-size:15px;font-weight:700;fill:#E8ECF5}
+  .stp{font-size:11px;font-weight:700;fill:#FFB347;letter-spacing:2px}
+  .n-title{font-size:14px;font-weight:700}
+  .n-sub{font-size:11px;fill:#98A2B8}
+  .n-tag{font-size:9px;fill:#FFB347;letter-spacing:1px}
+  .edge{stroke:#FFB347;stroke-width:2;fill:none}
+  .edge.data{stroke:#5FE3D0;stroke-dasharray:5 4}
+  .edge.ctl{stroke:#FF5C8A;stroke-width:1.5;opacity:.85;fill:none}
+  .elabel{font-size:11px;fill:#98A2B8}
+  .elabel.data{fill:#5FE3D0}
+  .elabel.ctl{fill:#FF5C8A}
+  .node{fill:#0E1322;stroke:#31406A;stroke-width:1}
+  .node.hot{stroke:#FFB347;stroke-width:1.5;filter:url(#glow3)}
+  .node.data{stroke:#5FE3D0}
+  .node.dim{stroke:#26304F}
+  .decn{fill:#0E1322;stroke:#FF5C8A;stroke-width:1.5}
+  .chip{fill:url(#chk3);stroke:#31406A;stroke-width:1}
+  .marquee3{fill:none;stroke:#FFB347;stroke-width:1.5;stroke-dasharray:4 4}
+  @media (prefers-reduced-motion:no-preference){
+    .marquee3{animation:march3 1.2s linear infinite}
+    @keyframes march3{to{stroke-dashoffset:-16}}
+  }
+</style>
+<defs>
+  <pattern id="chk3" width="8" height="8" patternUnits="userSpaceOnUse">
+    <rect width="8" height="8" fill="#1A2136"/>
+    <rect width="4" height="4" fill="#2A3452"/>
+    <rect x="4" y="4" width="4" height="4" fill="#2A3452"/>
+  </pattern>
+  <filter id="glow3" x="-30%" y="-30%" width="160%" height="160%">
+    <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#FFB347" flood-opacity="0.28"/>
+  </filter>
+  <marker id="arr3" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0 0 L8 4 L0 8 z" fill="#FFB347"/>
+  </marker>
+  <marker id="arrData3" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0 0 L8 4 L0 8 z" fill="#5FE3D0"/>
+  </marker>
+  <marker id="arrCtl3" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0 0 L8 4 L0 8 z" fill="#FF5C8A"/>
+  </marker>
+</defs>
+
+<rect x="0" y="0" width="1100" height="1110" fill="#121828"/>
+<rect x="0.5" y="0.5" width="1099" height="1109" fill="none" stroke="#232D47"/>
+
+<text class="stp" x="20" y="28">[3/5]</text>
+<text class="ttl" x="84" y="28">RECEIVE PATH — ACK, deliver, and heal loss</text>
+
+<g transform="translate(0,48)">
+  <g>
+    <rect class="node" x="440" y="20" width="240" height="54"/>
+    <rect class="chip" x="654" y="28" width="14" height="14"/>
+    <text class="n-title" x="454" y="43">receive()</text>
+    <text class="n-sub" x="454" y="62">inbound buffer</text>
+  </g>
+  <path class="decn" d="M560 104 L670 150 L560 196 L450 150 Z"/>
+  <text class="n-title" x="560" y="146" text-anchor="middle">valid frame?</text>
+  <text class="n-sub" x="560" y="164" text-anchor="middle">ARCnet header</text>
+  <path class="edge" d="M560 74 V104" marker-end="url(#arr3)"/>
+
+  <g>
+    <rect class="node dim" x="760" y="122" width="270" height="56"/>
+    <text class="n-title" x="774" y="145" fill="#B8C0D4">return null</text>
+    <text class="n-sub" x="774" y="164">treated as raw data</text>
+  </g>
+  <path class="edge ctl" d="M670 150 H760" marker-end="url(#arrCtl3)"/>
+  <text class="elabel ctl" x="705" y="142">no</text>
+
+  <g>
+    <rect class="node" x="400" y="240" width="320" height="60"/>
+    <text class="n-title" x="414" y="266">process ACKs</text>
+    <text class="n-sub" x="414" y="285">clear pending · harvest RTT</text>
+  </g>
+  <path class="edge" d="M560 196 V240" marker-end="url(#arr3)"/>
+  <text class="elabel" x="572" y="222">yes</text>
+
+  <g>
+    <rect class="node" x="400" y="352" width="320" height="56"/>
+    <text class="n-title" x="414" y="376">feed congestion ctrl</text>
+    <text class="n-sub" x="414" y="395">acks cleared · RTT · bytes</text>
+  </g>
+  <path class="edge" d="M560 300 V352" marker-end="url(#arr3)"/>
+
+  <path class="decn" d="M560 432 L655 478 L560 524 L465 478 Z"/>
+  <text class="n-title" x="560" y="482" text-anchor="middle">packet kind?</text>
+  <path class="edge" d="M560 408 V432" marker-end="url(#arr3)"/>
+
+  <g>
+    <rect class="node" x="80" y="570" width="280" height="54"/>
+    <text class="n-title" x="94" y="593">register parity</text>
+    <text class="n-sub" x="94" y="612">vs recent cache</text>
+  </g>
+  <path class="edge ctl" d="M465 478 H220 V570" marker-end="url(#arrCtl3)"/>
+  <text class="elabel ctl" x="256" y="470">FEC parity</text>
+
+  <path class="decn" d="M220 644 L350 690 L220 736 L90 690 Z"/>
+  <text class="n-title" x="220" y="686" text-anchor="middle">one missing?</text>
+  <text class="n-sub" x="220" y="704" text-anchor="middle">in covered group</text>
+  <path class="edge" d="M220 624 V644" marker-end="url(#arr3)"/>
+
+  <g>
+    <rect class="node hot" x="60" y="790" width="300" height="64"/>
+    <rect class="marquee3" x="55" y="785" width="310" height="74"/>
+    <rect class="chip" x="334" y="798" width="14" height="14"/>
+    <text class="n-title" x="74" y="818">reconstruct</text>
+    <text class="n-sub" x="74" y="837">re-inject at true seq</text>
+  </g>
+  <path class="edge" d="M220 736 V790" marker-end="url(#arr3)"/>
+  <text class="elabel" x="232" y="768">yes</text>
+
+  <g>
+    <rect class="node dim" x="390" y="662" width="180" height="56"/>
+    <text class="n-title" x="404" y="685" fill="#B8C0D4">hold parity</text>
+    <text class="n-sub" x="404" y="704">complete later</text>
+  </g>
+  <path class="edge ctl" d="M350 690 H390" marker-end="url(#arrCtl3)"/>
+  <text class="elabel ctl" x="356" y="682">no</text>
+
+  <g>
+    <rect class="node" x="580" y="572" width="240" height="54"/>
+    <text class="n-title" x="594" y="595">state machine</text>
+    <text class="n-sub" x="594" y="614">per channel</text>
+  </g>
+  <path class="edge ctl" d="M655 478 H700 V572" marker-end="url(#arrCtl3)"/>
+  <text class="elabel ctl" x="668" y="470">data</text>
+
+  <path class="decn" d="M700 652 L810 700 L700 748 L590 700 Z"/>
+  <text class="n-title" x="700" y="704" text-anchor="middle">channel semantics</text>
+  <path class="edge" d="M700 626 V652" marker-end="url(#arr3)"/>
+
+  <g>
+    <rect class="node" x="860" y="560" width="200" height="64"/>
+    <text class="n-tag" x="874" y="576">CRITICAL</text>
+    <text class="n-title" x="874" y="596">ordered queue</text>
+    <text class="n-sub" x="874" y="614">flush contiguous</text>
+  </g>
+  <g>
+    <rect class="node" x="860" y="636" width="200" height="64"/>
+    <text class="n-tag" x="874" y="652">RELIABLE</text>
+    <text class="n-title" x="874" y="672">deliver now</text>
+    <text class="n-sub" x="874" y="690">unordered</text>
+  </g>
+  <g>
+    <rect class="node" x="860" y="712" width="200" height="56"/>
+    <text class="n-tag" x="874" y="728">VOLATILE</text>
+    <text class="n-title" x="874" y="750">deliver</text>
+  </g>
+  <text class="n-tag" x="960" y="776" text-anchor="middle">SEQUENCED</text>
+  <path class="decn" d="M960 788 L1055 830 L960 872 L865 830 Z"/>
+  <text class="n-title" x="960" y="834" text-anchor="middle">newer seen?</text>
+  <g>
+    <rect class="node" x="740" y="910" width="150" height="52"/>
+    <text class="n-title" x="754" y="934">deliver</text>
+    <text class="n-sub" x="754" y="953">update latest</text>
+  </g>
+  <g>
+    <rect class="node dim" x="920" y="910" width="140" height="52"/>
+    <text class="n-title" x="934" y="940" fill="#B8C0D4">drop stale</text>
+  </g>
+
+  <path class="edge" d="M810 700 H835 V592 H860" marker-end="url(#arr3)"/>
+  <path class="edge" d="M810 700 H828 V668 H860" marker-end="url(#arr3)"/>
+  <path class="edge" d="M810 700 H842 V740 H860" marker-end="url(#arr3)"/>
+  <path class="edge" d="M700 748 V830 H865" marker-end="url(#arr3)"/>
+  <path class="edge ctl" d="M960 872 V890 H815 V910" marker-end="url(#arrCtl3)"/>
+  <path class="edge ctl" d="M960 872 V890 H990 V910" marker-end="url(#arrCtl3)"/>
+  <text class="elabel ctl" x="828" y="886">yes</text>
+  <text class="elabel ctl" x="996" y="886">no</text>
+
+  <g>
+    <rect class="node data" x="580" y="790" width="250" height="54"/>
+    <rect class="chip" x="804" y="798" width="14" height="14"/>
+    <text class="n-title" x="594" y="813">FEC data cache</text>
+    <text class="n-sub" x="594" y="832">may complete parity</text>
+  </g>
+  <path class="edge data" d="M580 600 H375 V817 H580" marker-end="url(#arrData3)"/>
+
+  <g>
+    <rect class="node data" x="380" y="1000" width="440" height="56"/>
+    <rect class="chip" x="794" y="1008" width="14" height="14"/>
+    <text class="n-title" x="394" y="1024">delivered payloads</text>
+    <text class="n-sub" x="394" y="1043">returned to caller</text>
+  </g>
+  <path class="edge" d="M210 854 V1028 H380" marker-end="url(#arr3)"/>
+  <path class="edge" d="M1060 592 H1078"/>
+  <path class="edge" d="M1060 668 H1078"/>
+  <path class="edge" d="M1060 740 H1078"/>
+  <path class="edge" d="M815 962 V984 H1078"/>
+  <path class="edge" d="M1078 592 V1028 H820" marker-end="url(#arr3)"/>
+  <path class="edge data" d="M705 844 V964 H600 V1000" marker-end="url(#arrData3)"/>
+  <text class="elabel data" x="620" y="956">recovery</text>
+</g>
+</svg>

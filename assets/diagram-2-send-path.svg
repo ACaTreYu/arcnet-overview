@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 540" role="img" aria-label="ARCnet send path diagram">
+<style>
+  text{font-family:Consolas,Menlo,'DejaVu Sans Mono',monospace;fill:#E8ECF5}
+  .ttl{font-size:15px;font-weight:700;fill:#E8ECF5}
+  .stp{font-size:11px;font-weight:700;fill:#FFB347;letter-spacing:2px}
+  .n-title{font-size:14px;font-weight:700}
+  .n-sub{font-size:11px;fill:#98A2B8}
+  .edge{stroke:#FFB347;stroke-width:2;fill:none}
+  .edge.data{stroke:#5FE3D0;stroke-dasharray:5 4}
+  .edge.ctl{stroke:#FF5C8A;stroke-width:1.5;opacity:.85;fill:none}
+  .elabel{font-size:11px;fill:#98A2B8}
+  .elabel.data{fill:#5FE3D0}
+  .elabel.ctl{fill:#FF5C8A}
+  .node{fill:#0E1322;stroke:#31406A;stroke-width:1}
+  .node.hot{stroke:#FFB347;stroke-width:1.5;filter:url(#glow2)}
+  .node.data{stroke:#5FE3D0}
+  .node.dim{stroke:#26304F}
+  .decn{fill:#0E1322;stroke:#FF5C8A;stroke-width:1.5}
+  .chip{fill:url(#chk2);stroke:#31406A;stroke-width:1}
+  .marquee2{fill:none;stroke:#FFB347;stroke-width:1.5;stroke-dasharray:4 4}
+  @media (prefers-reduced-motion:no-preference){
+    .marquee2{animation:march2 1.2s linear infinite}
+    @keyframes march2{to{stroke-dashoffset:-16}}
+  }
+</style>
+<defs>
+  <pattern id="chk2" width="8" height="8" patternUnits="userSpaceOnUse">
+    <rect width="8" height="8" fill="#1A2136"/>
+    <rect width="4" height="4" fill="#2A3452"/>
+    <rect x="4" y="4" width="4" height="4" fill="#2A3452"/>
+  </pattern>
+  <filter id="glow2" x="-30%" y="-30%" width="160%" height="160%">
+    <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#FFB347" flood-opacity="0.28"/>
+  </filter>
+  <marker id="arr2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0 0 L8 4 L0 8 z" fill="#FFB347"/>
+  </marker>
+  <marker id="arrData2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0 0 L8 4 L0 8 z" fill="#5FE3D0"/>
+  </marker>
+  <marker id="arrCtl2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0 0 L8 4 L0 8 z" fill="#FF5C8A"/>
+  </marker>
+</defs>
+
+<rect x="0" y="0" width="1080" height="540" fill="#121828"/>
+<rect x="0.5" y="0.5" width="1079" height="539" fill="none" stroke="#232D47"/>
+
+<text class="stp" x="20" y="28">[2/5]</text>
+<text class="ttl" x="84" y="28">SEND PATH — one call returns the buffers</text>
+
+<g transform="translate(0,48)">
+  <g>
+    <rect class="node hot" x="40" y="96" width="180" height="60"/>
+    <rect class="marquee2" x="35" y="91" width="190" height="70"/>
+    <rect class="chip" x="194" y="104" width="14" height="14"/>
+    <text class="n-title" x="54" y="122">send()</text>
+    <text class="n-sub" x="54" y="141">channel · payload</text>
+  </g>
+  <g>
+    <rect class="node" x="290" y="96" width="220" height="60"/>
+    <text class="n-title" x="304" y="122">assign sequence</text>
+    <text class="n-sub" x="304" y="141">next in channel space</text>
+  </g>
+  <g>
+    <rect class="node" x="580" y="96" width="220" height="60"/>
+    <text class="n-title" x="594" y="122">piggyback ACK</text>
+    <text class="n-sub" x="594" y="141">attach current state</text>
+  </g>
+  <path class="decn" d="M930 80 L1030 126 L930 172 L830 126 Z"/>
+  <text class="n-title" x="930" y="122" text-anchor="middle">acked channel?</text>
+  <text class="n-sub" x="930" y="140" text-anchor="middle">CRITICAL · RELIABLE</text>
+
+  <path class="edge" d="M220 126 H290" marker-end="url(#arr2)"/>
+  <path class="edge" d="M510 126 H580" marker-end="url(#arr2)"/>
+  <path class="edge" d="M800 126 H830" marker-end="url(#arr2)"/>
+
+  <g>
+    <rect class="node" x="760" y="230" width="260" height="54"/>
+    <text class="n-title" x="774" y="253">track pending</text>
+    <text class="n-sub" x="774" y="272">for retransmit</text>
+  </g>
+  <g>
+    <rect class="node dim" x="430" y="230" width="200" height="54"/>
+    <text class="n-title" x="444" y="253" fill="#B8C0D4">no tracking</text>
+  </g>
+  <path class="edge ctl" d="M930 172 V200"/>
+  <path class="edge ctl" d="M930 200 H890 V230" marker-end="url(#arrCtl2)"/>
+  <path class="edge ctl" d="M930 200 H530 V230" marker-end="url(#arrCtl2)"/>
+  <text class="elabel ctl" x="905" y="216">yes</text>
+  <text class="elabel ctl" x="700" y="194">no</text>
+
+  <path class="edge" d="M890 284 V320"/>
+  <path class="edge" d="M530 284 V320"/>
+  <path class="edge" d="M140 320 H890"/>
+  <path class="edge" d="M140 320 V366" marker-end="url(#arr2)"/>
+
+  <g>
+    <rect class="node" x="40" y="366" width="200" height="56"/>
+    <text class="n-title" x="54" y="390">encode</text>
+    <text class="n-sub" x="54" y="409">data packet</text>
+  </g>
+  <path class="decn" d="M430 348 L525 394 L430 440 L335 394 Z"/>
+  <text class="n-title" x="430" y="390" text-anchor="middle">FEC group full?</text>
+  <text class="n-sub" x="430" y="408" text-anchor="middle">enabled + complete</text>
+  <path class="edge" d="M240 394 H335" marker-end="url(#arr2)"/>
+
+  <g>
+    <rect class="node data" x="590" y="340" width="230" height="52"/>
+    <rect class="chip" x="794" y="348" width="14" height="14"/>
+    <text class="n-title" x="604" y="362">emit parity</text>
+    <text class="n-sub" x="604" y="381">alongside data</text>
+  </g>
+  <g>
+    <rect class="node" x="590" y="418" width="200" height="52"/>
+    <text class="n-title" x="604" y="449">data packet only</text>
+  </g>
+  <path class="edge ctl" d="M525 394 H560 V366 H590" marker-end="url(#arrCtl2)"/>
+  <path class="edge ctl" d="M430 440 V444 H590" marker-end="url(#arrCtl2)"/>
+  <text class="elabel ctl" x="540" y="358">yes</text>
+  <text class="elabel ctl" x="447" y="432">no</text>
+
+  <g>
+    <rect class="node data" x="870" y="364" width="190" height="64"/>
+    <rect class="chip" x="1034" y="372" width="14" height="14"/>
+    <text class="n-title" x="884" y="392">return buffers</text>
+    <text class="n-sub" x="884" y="411">caller → transport</text>
+  </g>
+  <path class="edge data" d="M820 366 H845 V396 H870" marker-end="url(#arrData2)"/>
+  <path class="edge data" d="M790 444 H845 V396 H870" marker-end="url(#arrData2)"/>
+</g>
+</svg>

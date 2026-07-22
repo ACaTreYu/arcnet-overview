@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" role="img" aria-label="ARCnet retransmit loop swimlanes">
+<style>
+  text{font-family:Consolas,Menlo,'DejaVu Sans Mono',monospace;fill:#E8ECF5}
+  .ttl{font-size:15px;font-weight:700;fill:#E8ECF5}
+  .stp{font-size:11px;font-weight:700;fill:#FFB347;letter-spacing:2px}
+  .n-title{font-size:14px;font-weight:700}
+  .n-sub{font-size:11px;fill:#98A2B8}
+  .edge{stroke:#FFB347;stroke-width:2;fill:none}
+  .edge.data{stroke:#5FE3D0;stroke-dasharray:5 4}
+  .edge.ctl{stroke:#FF5C8A;stroke-width:1.5;opacity:.85;fill:none}
+  .elabel{font-size:11px;fill:#98A2B8}
+  .elabel.data{fill:#5FE3D0}
+  .elabel.ctl{fill:#FF5C8A}
+  .node{fill:#0E1322;stroke:#31406A;stroke-width:1}
+  .node.hot{stroke:#FFB347;stroke-width:1.5;filter:url(#glow4)}
+  .node.dim{stroke:#26304F}
+  .life{stroke:#31406A;stroke-width:1;stroke-dasharray:4 5;opacity:.5;fill:none}
+  .note{fill:#1A2136;stroke:#31406A;stroke-width:1}
+  .chip{fill:url(#chk4);stroke:#31406A;stroke-width:1}
+  .marquee4{fill:none;stroke:#FFB347;stroke-width:1.5;stroke-dasharray:4 4}
+  @media (prefers-reduced-motion:no-preference){
+    .marquee4{animation:march4 1.2s linear infinite}
+    @keyframes march4{to{stroke-dashoffset:-16}}
+  }
+</style>
+<defs>
+  <pattern id="chk4" width="8" height="8" patternUnits="userSpaceOnUse">
+    <rect width="8" height="8" fill="#1A2136"/>
+    <rect width="4" height="4" fill="#2A3452"/>
+    <rect x="4" y="4" width="4" height="4" fill="#2A3452"/>
+  </pattern>
+  <filter id="glow4" x="-30%" y="-30%" width="160%" height="160%">
+    <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#FFB347" flood-opacity="0.28"/>
+  </filter>
+  <marker id="arr4" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0 0 L8 4 L0 8 z" fill="#FFB347"/>
+  </marker>
+  <marker id="arrData4" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0 0 L8 4 L0 8 z" fill="#5FE3D0"/>
+  </marker>
+  <marker id="arrCtl4" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0 0 L8 4 L0 8 z" fill="#FF5C8A"/>
+  </marker>
+</defs>
+
+<rect x="0" y="0" width="1080" height="560" fill="#121828"/>
+<rect x="0.5" y="0.5" width="1079" height="559" fill="none" stroke="#232D47"/>
+
+<text class="stp" x="20" y="28">[4/5]</text>
+<text class="ttl" x="84" y="28">RETRANSMIT LOOP — periodic tick heals gaps</text>
+
+<g transform="translate(0,48)">
+  <path class="life" d="M200 72 V492"/>
+  <path class="life" d="M560 72 V492"/>
+  <path class="life" d="M900 72 V492"/>
+
+  <g>
+    <rect class="node" x="100" y="16" width="200" height="56"/>
+    <text class="n-title" x="200" y="50" text-anchor="middle">game loop</text>
+  </g>
+  <g>
+    <rect class="node hot" x="440" y="16" width="240" height="56"/>
+    <rect class="marquee4" x="435" y="11" width="250" height="66"/>
+    <text class="n-title" x="560" y="50" text-anchor="middle">ARCnetSession</text>
+  </g>
+  <g>
+    <rect class="node dim" x="780" y="16" width="240" height="56"/>
+    <text class="n-title" x="900" y="50" text-anchor="middle" fill="#B8C0D4">transport</text>
+  </g>
+
+  <path class="edge" d="M200 118 H560" marker-end="url(#arr4)"/>
+  <text class="elabel" x="380" y="110" text-anchor="middle">tick(now) · ~50 ms</text>
+
+  <g>
+    <rect class="node" x="460" y="150" width="200" height="54"/>
+    <text class="n-title" x="474" y="173">scan acked</text>
+    <text class="n-sub" x="474" y="192">past timeout</text>
+  </g>
+  <path class="edge ctl" d="M660 164 H692 V186 H660" marker-end="url(#arrCtl4)"/>
+
+  <rect class="note" x="120" y="228" width="840" height="48"/>
+  <text class="n-sub" x="540" y="256" text-anchor="middle">timeout: smoothed RTT + variance · bounded retry budget/packet</text>
+
+  <path class="edge data" d="M560 320 H200" marker-end="url(#arrData4)"/>
+  <text class="elabel data" x="380" y="312" text-anchor="middle">retransmit buffers · fresh ACK state</text>
+
+  <path class="edge" d="M200 372 H900" marker-end="url(#arr4)"/>
+  <text class="elabel" x="550" y="364" text-anchor="middle">send each buffer</text>
+
+  <g>
+    <rect class="node" x="460" y="410" width="200" height="54"/>
+    <text class="n-title" x="474" y="433">evaluate cwnd</text>
+    <text class="n-sub" x="474" y="452">refresh stats</text>
+  </g>
+  <path class="edge ctl" d="M660 424 H692 V446 H660" marker-end="url(#arrCtl4)"/>
+</g>
+</svg>

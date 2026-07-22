@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 550" role="img" aria-label="ARCnet congestion control loop diagram">
+<style>
+  text{font-family:Consolas,Menlo,'DejaVu Sans Mono',monospace;fill:#E8ECF5}
+  .ttl{font-size:15px;font-weight:700;fill:#E8ECF5}
+  .stp{font-size:11px;font-weight:700;fill:#FFB347;letter-spacing:2px}
+  .n-title{font-size:14px;font-weight:700}
+  .n-sub{font-size:11px;fill:#98A2B8}
+  .lane-label{font-size:10px;fill:#8A94AD;letter-spacing:2px}
+  .edge{stroke:#FFB347;stroke-width:2;fill:none}
+  .edge.data{stroke:#5FE3D0;stroke-dasharray:5 4}
+  .edge.ctl{stroke:#FF5C8A;stroke-width:1.5;opacity:.85;fill:none}
+  .elabel{font-size:11px;fill:#98A2B8}
+  .elabel.ctl{fill:#FF5C8A}
+  .node{fill:#0E1322;stroke:#31406A;stroke-width:1}
+  .node.hot{stroke:#FFB347;stroke-width:1.5;filter:url(#glow5)}
+  .node.data{stroke:#5FE3D0}
+  .lane{fill:rgba(19,24,40,.6);stroke:#232D47;stroke-width:1;stroke-dasharray:2 4}
+  .chip{fill:url(#chk5);stroke:#31406A;stroke-width:1}
+  .marquee5{fill:none;stroke:#FFB347;stroke-width:1.5;stroke-dasharray:4 4}
+  @media (prefers-reduced-motion:no-preference){
+    .marquee5{animation:march5 1.2s linear infinite}
+    @keyframes march5{to{stroke-dashoffset:-16}}
+  }
+</style>
+<defs>
+  <pattern id="chk5" width="8" height="8" patternUnits="userSpaceOnUse">
+    <rect width="8" height="8" fill="#1A2136"/>
+    <rect width="4" height="4" fill="#2A3452"/>
+    <rect x="4" y="4" width="4" height="4" fill="#2A3452"/>
+  </pattern>
+  <filter id="glow5" x="-30%" y="-30%" width="160%" height="160%">
+    <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#FFB347" flood-opacity="0.28"/>
+  </filter>
+  <marker id="arr5" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0 0 L8 4 L0 8 z" fill="#FFB347"/>
+  </marker>
+  <marker id="arrCtl5" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0 0 L8 4 L0 8 z" fill="#FF5C8A"/>
+  </marker>
+</defs>
+
+<rect x="0" y="0" width="1100" height="550" fill="#121828"/>
+<rect x="0.5" y="0.5" width="1099" height="549" fill="none" stroke="#232D47"/>
+
+<text class="stp" x="20" y="28">[5/5]</text>
+<text class="ttl" x="84" y="28">CONGESTION LOOP — measure, evaluate, adapt</text>
+
+<g transform="translate(0,48)">
+  <rect class="lane" x="40" y="20" width="300" height="300"/>
+  <text class="lane-label" x="56" y="44">MEASURE — EVERY PACKET</text>
+  <rect class="lane" x="380" y="20" width="340" height="340"/>
+  <text class="lane-label" x="396" y="44">EVALUATE — PERIODIC WINDOW</text>
+  <rect class="lane" x="760" y="20" width="320" height="280"/>
+  <text class="lane-label" x="776" y="44">ADAPT</text>
+
+  <g>
+    <rect class="node data" x="64" y="70" width="252" height="52"/>
+    <text class="n-title" x="78" y="93">sent counts</text>
+    <text class="n-sub" x="78" y="112">packets + bytes</text>
+  </g>
+  <g>
+    <rect class="node data" x="64" y="142" width="252" height="52"/>
+    <text class="n-title" x="78" y="165">acks cleared</text>
+    <text class="n-sub" x="78" y="184">per receive</text>
+  </g>
+  <g>
+    <rect class="node data" x="64" y="214" width="252" height="52"/>
+    <text class="n-title" x="78" y="237">RTT samples</text>
+    <text class="n-sub" x="78" y="256">from real ACKs</text>
+  </g>
+
+  <g>
+    <rect class="node" x="404" y="64" width="292" height="50"/>
+    <text class="n-title" x="418" y="87">loss rate</text>
+    <text class="n-sub" x="418" y="106">windowed</text>
+  </g>
+  <g>
+    <rect class="node" x="404" y="128" width="292" height="54"/>
+    <text class="n-title" x="418" y="151">RTT trend</text>
+    <text class="n-sub" x="418" y="170">recent vs older half</text>
+  </g>
+  <g>
+    <rect class="node" x="404" y="196" width="292" height="52"/>
+    <text class="n-title" x="418" y="219">bandwidth EMA</text>
+    <text class="n-sub" x="418" y="238">+ goodput</text>
+  </g>
+  <g>
+    <rect class="node hot" x="404" y="262" width="292" height="58"/>
+    <rect class="marquee5" x="399" y="257" width="302" height="68"/>
+    <rect class="chip" x="670" y="270" width="14" height="14"/>
+    <text class="n-title" x="418" y="287">congestion score</text>
+    <text class="n-sub" x="418" y="306">blended</text>
+  </g>
+
+  <g>
+    <rect class="node" x="784" y="64" width="272" height="52"/>
+    <text class="n-title" x="798" y="87">quality tier</text>
+    <text class="n-sub" x="798" y="106">GOOD · FAIR · POOR</text>
+  </g>
+  <g>
+    <rect class="node" x="784" y="134" width="272" height="54"/>
+    <text class="n-title" x="798" y="157">snapshot interval</text>
+    <text class="n-sub" x="798" y="176">30–90 ms continuous</text>
+  </g>
+  <g>
+    <rect class="node" x="784" y="206" width="272" height="52"/>
+    <text class="n-title" x="798" y="229">RTT percentiles</text>
+    <text class="n-sub" x="798" y="248">p50 · p95 · p99</text>
+  </g>
+
+  <path class="edge" d="M340 168 H380" marker-end="url(#arr5)"/>
+  <path class="edge" d="M720 160 H760" marker-end="url(#arr5)"/>
+
+  <g>
+    <rect class="node" x="380" y="420" width="340" height="60"/>
+    <text class="n-title" x="394" y="446">game send rate</text>
+    <text class="n-sub" x="394" y="465">snapshot + non-essential</text>
+  </g>
+  <path class="edge" d="M784 90 H740"/>
+  <path class="edge" d="M784 161 H740"/>
+  <path class="edge" d="M740 90 V400"/>
+  <path class="edge" d="M740 400 H550 V420" marker-end="url(#arr5)"/>
+
+  <path class="edge ctl" d="M380 450 H30 V168 H64" marker-end="url(#arrCtl5)"/>
+  <text class="elabel ctl" x="205" y="442" text-anchor="middle">changed send pattern</text>
+</g>
+</svg>

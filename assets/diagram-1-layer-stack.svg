@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 700" role="img" aria-label="ARCnet layer stack diagram">
+<style>
+  text{font-family:Consolas,Menlo,'DejaVu Sans Mono',monospace;fill:#E8ECF5}
+  .ttl{font-size:15px;font-weight:700;fill:#E8ECF5}
+  .stp{font-size:11px;font-weight:700;fill:#FFB347;letter-spacing:2px}
+  .n-title{font-size:14px;font-weight:700}
+  .n-sub{font-size:11px;fill:#98A2B8}
+  .lane-label{font-size:10px;fill:#8A94AD;letter-spacing:2px}
+  .edge{stroke:#FFB347;stroke-width:2;fill:none}
+  .edge.data{stroke:#5FE3D0;stroke-dasharray:5 4}
+  .edge.ctl{stroke:#FF5C8A;stroke-width:1.5;opacity:.85;fill:none}
+  .elabel{font-size:11px;fill:#98A2B8}
+  .elabel.data{fill:#5FE3D0}
+  .elabel.ctl{fill:#FF5C8A}
+  .node{fill:#0E1322;stroke:#31406A;stroke-width:1}
+  .node.hot{stroke:#FFB347;stroke-width:1.5;filter:url(#glow1)}
+  .node.dim{stroke:#26304F}
+  .lane{fill:rgba(19,24,40,.6);stroke:#232D47;stroke-width:1;stroke-dasharray:2 4}
+  .chip{fill:url(#chk1);stroke:#31406A;stroke-width:1}
+  .marquee1{fill:none;stroke:#FFB347;stroke-width:1.5;stroke-dasharray:4 4}
+  @media (prefers-reduced-motion:no-preference){
+    .marquee1{animation:march1 1.2s linear infinite}
+    @keyframes march1{to{stroke-dashoffset:-16}}
+  }
+</style>
+<defs>
+  <pattern id="chk1" width="8" height="8" patternUnits="userSpaceOnUse">
+    <rect width="8" height="8" fill="#1A2136"/>
+    <rect width="4" height="4" fill="#2A3452"/>
+    <rect x="4" y="4" width="4" height="4" fill="#2A3452"/>
+  </pattern>
+  <filter id="glow1" x="-30%" y="-30%" width="160%" height="160%">
+    <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#FFB347" flood-opacity="0.28"/>
+  </filter>
+  <marker id="arr1" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0 0 L8 4 L0 8 z" fill="#FFB347"/>
+  </marker>
+  <marker id="arrData1" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+    <path d="M0 0 L8 4 L0 8 z" fill="#5FE3D0"/>
+  </marker>
+</defs>
+
+<rect x="0" y="0" width="1080" height="700" fill="#121828"/>
+<rect x="0.5" y="0.5" width="1079" height="699" fill="none" stroke="#232D47"/>
+
+<text class="stp" x="20" y="28">[1/5]</text>
+<text class="ttl" x="84" y="28">LAYER STACK — ARCnet never touches a socket</text>
+
+<g transform="translate(0,48)">
+  <rect class="lane" x="40" y="16" width="1000" height="90"/>
+  <text class="lane-label" x="56" y="40">GAME LAYER</text>
+  <rect class="lane" x="40" y="126" width="1000" height="286"/>
+  <text class="lane-label" x="56" y="150">ARCNET PROTOCOL LAYER</text>
+  <rect class="lane" x="40" y="430" width="1000" height="90"/>
+  <text class="lane-label" x="56" y="454">TRANSPORT LAYER — BRING YOUR OWN</text>
+
+  <g>
+    <rect class="node" x="130" y="40" width="250" height="54"/>
+    <rect class="chip" x="354" y="48" width="14" height="14"/>
+    <text class="n-title" x="144" y="63">game logic</text>
+    <text class="n-sub" x="144" y="82">snapshots · inputs · events</text>
+  </g>
+  <g>
+    <rect class="node" x="640" y="40" width="300" height="54"/>
+    <rect class="chip" x="914" y="48" width="14" height="14"/>
+    <text class="n-title" x="654" y="63">binary input codec</text>
+    <text class="n-sub" x="654" y="82">packed encodings · JSON fallback</text>
+  </g>
+  <path class="edge" d="M380 67 H640" marker-end="url(#arr1)"/>
+
+  <g>
+    <rect class="node hot" x="90" y="210" width="220" height="64"/>
+    <rect class="marquee1" x="85" y="205" width="230" height="74"/>
+    <rect class="chip" x="284" y="218" width="14" height="14"/>
+    <text class="n-title" x="104" y="238">ARCnetSession</text>
+    <text class="n-sub" x="104" y="257">send · receive · tick</text>
+  </g>
+  <g>
+    <rect class="node" x="560" y="150" width="400" height="54"/>
+    <rect class="chip" x="934" y="158" width="14" height="14"/>
+    <text class="n-title" x="574" y="173">4 channel state machines</text>
+    <text class="n-sub" x="574" y="192">CRITICAL · RELIABLE · SEQUENCED · VOLATILE</text>
+  </g>
+  <g>
+    <rect class="node" x="560" y="220" width="400" height="54"/>
+    <rect class="chip" x="934" y="228" width="14" height="14"/>
+    <text class="n-title" x="574" y="243">FEC</text>
+    <text class="n-sub" x="574" y="262">encoder + recovery</text>
+  </g>
+  <g>
+    <rect class="node" x="560" y="290" width="400" height="48"/>
+    <text class="n-title" x="574" y="318">congestion controller</text>
+  </g>
+  <g>
+    <rect class="node" x="560" y="352" width="400" height="54"/>
+    <rect class="chip" x="934" y="360" width="14" height="14"/>
+    <text class="n-title" x="574" y="375">batch splitter</text>
+    <text class="n-sub" x="574" y="394">coalesced bundles</text>
+  </g>
+
+  <path class="edge ctl" d="M310 228 H400 V177 H560"/>
+  <path class="edge ctl" d="M310 242 H440 V247 H560"/>
+  <path class="edge ctl" d="M310 256 H480 V314 H560"/>
+  <path class="edge ctl" d="M310 270 H520 V379 H560"/>
+
+  <g>
+    <rect class="node dim" x="90" y="458" width="220" height="52"/>
+    <text class="n-title" x="104" y="480" fill="#B8C0D4">WebRTC</text>
+    <text class="n-sub" x="104" y="499">DataChannel</text>
+  </g>
+  <g>
+    <rect class="node dim" x="340" y="458" width="180" height="52"/>
+    <text class="n-title" x="354" y="489" fill="#B8C0D4">WebSocket</text>
+  </g>
+  <g>
+    <rect class="node dim" x="550" y="458" width="210" height="52"/>
+    <text class="n-title" x="564" y="480" fill="#B8C0D4">raw UDP</text>
+    <text class="n-sub" x="564" y="499">Node dgram</text>
+  </g>
+  <g>
+    <rect class="node dim" x="790" y="458" width="240" height="52"/>
+    <text class="n-title" x="804" y="480" fill="#B8C0D4">Discord Activity</text>
+    <text class="n-sub" x="804" y="499">proxied socket</text>
+  </g>
+
+  <path class="edge" d="M200 274 V458" marker-end="url(#arr1)"/>
+  <path class="edge" d="M200 444 H910"/>
+  <path class="edge" d="M430 444 V458" marker-end="url(#arr1)"/>
+  <path class="edge" d="M655 444 V458" marker-end="url(#arr1)"/>
+  <path class="edge" d="M910 444 V458" marker-end="url(#arr1)"/>
+
+  <g>
+    <rect class="node" x="430" y="580" width="220" height="52" rx="10"/>
+    <text class="n-title" x="540" y="612" text-anchor="middle">network</text>
+  </g>
+  <path class="edge data" d="M200 510 V548"/>
+  <path class="edge data" d="M430 510 V548"/>
+  <path class="edge data" d="M655 510 V548"/>
+  <path class="edge data" d="M910 510 V548"/>
+  <path class="edge data" d="M200 548 H910"/>
+  <path class="edge data" d="M540 548 V580" marker-end="url(#arrData1)"/>
+</g>
+</svg>
