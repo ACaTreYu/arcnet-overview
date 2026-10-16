@@ -89,8 +89,8 @@
 
   <g>
     <rect class="node" x="460" y="410" width="200" height="54"/>
-    <text class="n-title" x="474" y="433">evaluate cwnd</text>
-    <text class="n-sub" x="474" y="452">refresh stats</text>
+    <text class="n-title" x="474" y="433">evaluate congestion</text>
+    <text class="n-sub" x="474" y="452">loss · RTT trend · stats</text>
   </g>
   <path class="edge ctl" d="M660 424 H692 V446 H660" marker-end="url(#arrCtl4)"/>
 </g>

@@ -1,6 +1,6 @@
 # ARCnet Architecture
 
-ARCnet is a session-oriented reliability layer that sits between game logic and any byte transport. This document describes the system's structure and data flows. Wire-format specifics and the novel algorithms (FEC construction, congestion scoring, retransmit policy) are described conceptually — the implementations are proprietary.
+ARCnet is a session-oriented reliability layer that sits between game logic and any byte transport. This document describes the system's structure and data flows. Wire-format specifics and the novel algorithms (FEC construction, congestion scoring, retransmit policy) are described conceptually — the source is private.
 
 ## Layer Stack
 
@@ -84,7 +84,7 @@ function bind(session: ARCnetSession, t: ByteTransport) {
 }
 ```
 
-Because `receive()` returns `null` for non-ARCnet buffers, the protocol can share a transport with legacy or out-of-band messages — which is how it was rolled into a live game incrementally. Arcbound still uses that today: the server's snapshots and match events are ARCnet-framed over WebRTC DataChannels, while the client sends its inputs and fire events over the same WebRTC connection as raw codec packets, and its only framed traffic is ACK-only replies. The repo's Discord Activity example demonstrates the transport payoff: the entire adaptation is a one-time transport-level URL re-mapping through Discord's proxy plus an identity handshake; the protocol layer is byte-for-byte identical to the standalone web build. (Arcbound's own Discord build currently plays over its WebSocket path, which carries snapshots without ARCnet framing.)
+Because `receive()` returns `null` for non-ARCnet buffers, the protocol can share a transport with legacy or out-of-band messages — which is how it was rolled into a live game incrementally. Arcbound still uses that today: the server's snapshots and match events are ARCnet-framed over WebRTC DataChannels, while the client sends its inputs and fire events over the same WebRTC connection as raw codec packets, and its only framed traffic is ACK-only replies. The repo's Discord Activity example demonstrates the transport payoff: the entire adaptation is a one-time transport-level URL re-mapping through Discord's proxy plus an identity handshake; the protocol layer is byte-for-byte identical to the standalone web build. (Arcbound's own Discord build tries the WebRTC upgrade too; inside Discord's sandbox it does not connect, so that build plays over its WebSocket path, which carries snapshots without ARCnet framing.)
 
 ## Companion Codec
 

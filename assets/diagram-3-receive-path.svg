@@ -90,6 +90,14 @@
   <path class="edge" d="M560 408 V432" marker-end="url(#arr3)"/>
 
   <g>
+    <rect class="node dim" x="395" y="536" width="170" height="50"/>
+    <text class="n-title" x="409" y="557" fill="#B8C0D4">done</text>
+    <text class="n-sub" x="409" y="576">nothing to deliver</text>
+  </g>
+  <path class="edge ctl" d="M560 524 V536" marker-end="url(#arrCtl3)"/>
+  <text class="elabel ctl" x="568" y="536">ack-only</text>
+
+  <g>
     <rect class="node" x="80" y="570" width="280" height="54"/>
     <text class="n-title" x="94" y="593">register parity</text>
     <text class="n-sub" x="94" y="612">vs recent cache</text>
@@ -136,7 +144,7 @@
     <rect class="node" x="860" y="560" width="200" height="64"/>
     <text class="n-tag" x="874" y="576">CRITICAL</text>
     <text class="n-title" x="874" y="596">ordered queue</text>
-    <text class="n-sub" x="874" y="614">flush contiguous</text>
+    <text class="n-sub" x="874" y="614">flush · skip dead hole</text>
   </g>
   <g>
     <rect class="node" x="860" y="636" width="200" height="64"/>

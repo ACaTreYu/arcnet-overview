@@ -12,7 +12,7 @@ ARCnet is a compact TypeScript protocol layer that adds sequencing, selective-ac
 
 ## Novel Systems & Methods
 
-The interesting engineering in ARCnet is not "a reliability layer exists" — it's a handful of original mechanisms designed around the realities of browser-based real-time games on unreliable links. Implementations are proprietary; what follows is the concept and the result.
+The interesting engineering in ARCnet is not "a reliability layer exists" — it's a handful of original mechanisms designed around the realities of browser-based real-time games on unreliable links. The source is private; what follows is the concept and the result.
 
 ### 1. Sequence-Tagged, Length-Prefixed XOR FEC
 
@@ -70,7 +70,7 @@ In Arcbound these packets ride an unreliable DataChannel beside ARCnet's framed 
 
 ARCnet never opens a socket. The session consumes and produces `ArrayBuffer`s, so the identical protocol code runs over a WebRTC DataChannel (the UDP-like path), a WebSocket (TCP fallback with uniform stats), Node's raw UDP, or inside a **Discord Activity**, where all traffic is forced through Discord's proxy — the transport is re-pointed once and the protocol layer is untouched. The repo ships a worked Discord Activity integration (proxy URL mapping plus the embedded OAuth handshake and its non-obvious pitfalls).
 
-In Arcbound, ARCnet carries the WebRTC DataChannel path. The WebSocket fallback, which Arcbound's Discord Activity build also plays over, carries the same snapshots without ARCnet framing.
+In Arcbound, ARCnet carries the WebRTC DataChannel path. Every client tries that upgrade; where it cannot connect, as inside Discord's Activity sandbox, the game stays on its WebSocket fallback, which carries the same snapshots without ARCnet framing.
 
 ### 8. Snapshot Formats That Evolve per Connection (Arcbound)
 
