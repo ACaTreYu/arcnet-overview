@@ -63,9 +63,12 @@ Reliability protocols live or die on edge cases, so the suites are organized by 
 - **Framing round-trip** — encode/decode symmetry, magic and version rejection, short-buffer handling.
 - **FEC** — recovery with parity arriving before and after data, variable-length groups, sequence-wrap groups, corrupt-parity rejection, cache eviction under sustained loss.
 - **Retransmit** — pending tracking, ACK clearing (head ACK and bitfield), timeout behavior, retry budget.
-- **Loss accounting** — the loss-rate denominator counts *cleared pending packets*, not raw receives; tests pin this down because it is easy to regress.
+- **Loss accounting** — the loss-rate denominator counts *cleared pending packets*, not raw receives, and only on acked channels; the receive-side counters count skipped sequence numbers. Tests pin this down because it is easy to regress.
 - **Sequence math** — modular comparison and ordering across the 16-bit wrap boundary, including the ordered-queue flush.
 - **Percentiles** — nearest-rank behavior at small sample counts and boundary p-values.
+- **Receive-only peers** — with no ACK every acked packet is retransmitted to the budget; with ACK-only replies, zero retransmits; a selective loss retransmits only the missing packet; RTT is measured from whichever acked channel is acknowledged.
+- **Ordered streams** — a late first packet is still delivered in order, a mid-stream join starts where it joined, and a hole that never fills is skipped to the oldest waiting packet.
+- **Codec compatibility** — the extended input packet round-trips, an input without a sample time is the old packet byte for byte, and an old decoder still reads the new one.
 
 Simulating a lossy link in tests requires no network at all: because the session's inputs and outputs are plain buffers, a "network" is just two sessions and an array you selectively drop, reorder, or delay packets from. This is the single biggest payoff of the transport-agnostic design — the entire protocol is unit-testable at full speed with deterministic loss patterns.
 
@@ -74,7 +77,9 @@ Simulating a lossy link in tests requires no network at all: because the session
 1. Pick a fixed, versioned header early; reject unknown versions from day one.
 2. Keep the core synchronous and socket-free — buffers in, buffers out. Test harnesses and new transports become trivial.
 3. Use modular (wrap-aware) sequence comparison everywhere; never compare sequence numbers with `<`.
-4. Piggyback ACK state on every packet before considering dedicated ACK traffic.
-5. Bound every cache and retry loop — pending maps, FEC stores, ordered-delivery queues — so a hostile or dead peer cannot grow memory.
-6. Measure RTT from real acknowledgements and keep percentiles, not just averages.
+4. Piggyback ACK state on every packet before considering dedicated ACK traffic — but give a peer that only receives acked traffic a header-only ACK, or the sender retransmits everything.
+5. Bound every cache and retry loop — pending maps, FEC stores, ordered-delivery queues — so a hostile or dead peer cannot grow memory. When the sender gives up on a packet, the receiver's ordered queue must give up on that hole too.
+6. Measure RTT from real acknowledgements and keep percentiles, not just averages. Count loss only where it can be acknowledged, and measure it on the receiver from sequence gaps.
 7. Make congestion response continuous, not stepped, and derive it from trends as well as levels.
+8. Have the sender stamp when a sample was true, and map clocks with the fastest recent delivery, not an average.
+9. Evolve payloads per connection: a capability announcement plus skippable, length-prefixed extensions let client and server deploy in either order.
